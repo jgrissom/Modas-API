@@ -16,5 +16,10 @@ namespace Modas.Controllers
     // returns all events (sorted)
     public IEnumerable<Event> Get() => eventDbContext.Events
       .Include(e => e.Location).OrderBy(e => e.TimeStamp);
+    [HttpGet("{id}")]
+    // return specific event
+    public Event Get(int id) => eventDbContext.Events
+      .Include(e => e.Location)
+      .FirstOrDefault(e => e.EventId == id);
   }
 }
