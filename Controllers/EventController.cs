@@ -32,5 +32,8 @@ namespace Modas.Controllers
     [HttpPut]
     // update event
     public Event Put([FromBody] Event evt) => eventDbContext.UpdateEvent(evt);
+    [HttpDelete("{id}")]
+    // delete event
+    public void Delete(int id) => eventDbContext.DeleteEvent(id);
   }
 }
