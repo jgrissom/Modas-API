@@ -21,6 +21,21 @@ namespace Modas.Controllers
     public Event Get(int id) => eventDbContext.Events
       .Include(e => e.Location)
       .FirstOrDefault(e => e.EventId == id);
+    [HttpGet("pageSize/{pageSize:int}/page/{page:int}")]
+    // returns all events by page
+    public EventPage GetPage(int page = 1, int pageSize = 10) => new EventPage
+    {
+      Events = eventDbContext.Events.Include(e => e.Location)
+        .OrderByDescending(e => e.TimeStamp)
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize),
+      PagingInfo = new PageInfo
+      {
+        CurrentPage = page,
+        ItemsPerPage = pageSize,
+        TotalItems = eventDbContext.Events.Count()
+      }
+    };
     [HttpPost]
     // add event
     public Event Post([FromBody] Event evt) => eventDbContext.AddEvent(new Event
