@@ -11,4 +11,11 @@ namespace Modas.Models
     // navigation property
     public Location Location { get; set; }
   }
+  public class EventJson
+  {
+    public int EventId { get; set; }
+    public DateTime TimeStamp { get; set; }
+    public bool Flagged { get; set; }
+    public string LocationName { get; set; }
+  }
 }

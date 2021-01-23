@@ -19,7 +19,7 @@ namespace Modas.Models
 
   public class EventPage
   {
-    public IEnumerable<Event> Events { get; set; }
+    public IEnumerable<EventJson> Events { get; set; }
     public PageInfo PagingInfo { get; set; }
   }
 }

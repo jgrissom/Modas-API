@@ -25,7 +25,14 @@ namespace Modas.Controllers
     // returns all events by page
     public EventPage GetPage(int page = 1, int pageSize = 10) => new EventPage
     {
-      Events = eventDbContext.Events.Include(e => e.Location)
+      Events = eventDbContext.Events
+        .Select(e => new EventJson
+        {
+          EventId = e.EventId,
+          Flagged = e.Flagged,
+          TimeStamp = e.TimeStamp,
+          LocationName = e.Location.Name
+        })
         .OrderByDescending(e => e.TimeStamp)
         .Skip((page - 1) * pageSize)
         .Take(pageSize),
