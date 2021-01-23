@@ -28,12 +28,12 @@ namespace Modas.Controllers
       Events = eventDbContext.Events
         .Select(e => new EventJson
         {
-          EventId = e.EventId,
-          Flagged = e.Flagged,
-          TimeStamp = e.TimeStamp,
-          LocationName = e.Location.Name
+          id = e.EventId,
+          flag = e.Flagged,
+          stamp = e.TimeStamp,
+          loc = e.Location.Name
         })
-        .OrderByDescending(e => e.TimeStamp)
+        .OrderByDescending(e => e.stamp)
         .Skip((page - 1) * pageSize)
         .Take(pageSize),
       PagingInfo = new PageInfo

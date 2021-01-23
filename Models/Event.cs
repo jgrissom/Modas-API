@@ -13,9 +13,9 @@ namespace Modas.Models
   }
   public class EventJson
   {
-    public int EventId { get; set; }
-    public DateTime TimeStamp { get; set; }
-    public bool Flagged { get; set; }
-    public string LocationName { get; set; }
+    public int id { get; set; }
+    public DateTime stamp { get; set; }
+    public bool flag { get; set; }
+    public string loc { get; set; }
   }
 }
