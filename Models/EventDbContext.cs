@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Modas.Models
 {
@@ -23,6 +24,12 @@ namespace Modas.Models
       Event.LocationId = evt.LocationId;
       this.SaveChanges();
       return Event;
+    }
+    public void PatchEvent(int id, JsonPatchDocument<Event> patch)
+    {
+      Event evt = this.Events.FirstOrDefault(e => e.EventId == id);
+      patch.ApplyTo(evt);
+      this.SaveChanges();
     }
     public void DeleteEvent(int eventId)
     {

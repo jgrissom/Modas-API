@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Modas.Models;
-
+using Microsoft.AspNetCore.JsonPatch;
 namespace Modas.Controllers
 {
   [Route("api/[controller]")]
@@ -54,6 +54,9 @@ namespace Modas.Controllers
     [HttpPut]
     // update event
     public Event Put([FromBody] Event evt) => eventDbContext.UpdateEvent(evt);
+    [HttpPatch("{id}")]
+    // update event (specific fields)
+    public void Patch(int id, [FromBody]JsonPatchDocument<Event> patch) => eventDbContext.PatchEvent(id, patch);
     [HttpDelete("{id}")]
     // delete event
     public void Delete(int id) => eventDbContext.DeleteEvent(id);
