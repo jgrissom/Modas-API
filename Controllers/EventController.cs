@@ -11,7 +11,9 @@ namespace Modas.Controllers
   {
     private EventDbContext eventDbContext;
     public EventController(EventDbContext db) => eventDbContext = db;
-
+    [HttpGet, Route("count")]
+    // returns number of members in events collections
+    public int GetCount() => eventDbContext.Events.Count();
     [HttpGet]
     // returns all events (sorted)
     public IEnumerable<Event> Get() => eventDbContext.Events
