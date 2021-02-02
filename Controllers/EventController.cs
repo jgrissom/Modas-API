@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Modas.Models;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Authorization;
 namespace Modas.Controllers
 {
-  [Route("api/[controller]")]
+  [Route("api/[controller]"), Authorize]
   public class EventController : Controller
   {
     private EventDbContext eventDbContext;
