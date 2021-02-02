@@ -1,4 +1,7 @@
 {
+  "Jwt": {
+    "Key": "veryVerySecretkey"
+  },
   "EventDbContext": {
     "ConnectionString": "Server=bitsql.wctc.edu;Database=Events_##_XXX;User ID=***;Password=***"
   },
