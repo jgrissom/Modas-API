@@ -12,7 +12,7 @@ namespace Modas.Controllers
   {
     private EventDbContext eventDbContext;
     public EventController(EventDbContext db) => eventDbContext = db;
-    [HttpGet, Route("count")]
+    [HttpGet, Route("count"), AllowAnonymous]
     // returns number of members in events collections
     public int GetCount() => eventDbContext.Events.Count();
     [HttpGet]
