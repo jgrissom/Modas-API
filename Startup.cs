@@ -15,6 +15,8 @@ using Modas.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace Modas
 {
@@ -42,8 +44,30 @@ namespace Modas
                     });
             });
             services.AddDbContext<EventDbContext>(options => options.UseSqlServer(Configuration["EventDbContext:ConnectionString"]));
+            // ==== App Identity Db Context ======
+            services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration["AppIdentityDbContext:ConnectionString"]));
+            // ==== Add Identity ======
+            services.AddIdentity<AppUser, IdentityRole>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDbContext>()
+                .AddDefaultTokenProviders();
+            // ===== Configure Identity =======
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    // This is needed to prevent the default redirection to account/login on 404 or other
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    return Task.CompletedTask;
+                };
+            });
+
             // Register JWT authentication schema / configure default JWT options
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options => {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = false,
@@ -53,7 +77,7 @@ namespace Modas
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
             });
-            services.AddControllers().AddNewtonsoftJson();;
+            services.AddControllers().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
